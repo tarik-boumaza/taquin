@@ -19,6 +19,9 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        launch(args);
+        //launch(args);
+
+        Grille grille = new Grille(4, 5);
+        System.out.println(grille);
     }
 }
