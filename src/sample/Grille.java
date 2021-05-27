@@ -53,10 +53,10 @@ public class Grille {
         for (i = 0; i < taille; i++) {
             for (j = 0; j < taille; j++) {
                 if (grille[i][j].getId() < 10) {
-                    str += grille[i][j].getId() + "  ";
+                    str += grille[i][j].getPositionFinale() + "  ";
                 }
                 else {
-                    str += grille[i][j].getId()+ " ";
+                    str += grille[i][j].getPositionFinale()+ " ";
                 }
             }
             str += "\n";
