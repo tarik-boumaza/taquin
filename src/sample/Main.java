@@ -20,8 +20,18 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         //launch(args);
-
-        Grille grille = new Grille(4, 5);
+        Agent[] agents = new Agent[2];
+        Grille grille = new Grille(5, agents);
+        agents[0] = new Agent(1, 6, grille);
+        agents[1] = new Agent(2,7, grille);
+        grille.initExemple();
         System.out.println(grille);
+
+        agents[0].start();
+        agents[1].start();
+        agents[0].interrupt();
+        agents[1].interrupt();
+
+
     }
 }
