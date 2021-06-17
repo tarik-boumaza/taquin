@@ -18,20 +18,24 @@ public class Main extends Application {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         //launch(args);
-        Agent[] agents = new Agent[2];
+        /*Agent[] agents = new Agent[2];
         Grille grille = new Grille(5, agents);
-        agents[0] = new Agent(1, 6, grille);
-        agents[1] = new Agent(2,7, grille);
-        grille.initExemple();
+        agents[0] = new Agent(0, 6, grille);
+        agents[1] = new Agent(1,7, grille);
+        grille.initExemple();*/
+
+        Grille grille = new Grille(5,2);
         System.out.println(grille);
+        grille.startAgents();
 
-        agents[0].start();
-        agents[1].start();
-        agents[0].interrupt();
-        agents[1].interrupt();
 
+        System.out.println(grille);
+        while(!grille.estReconstituee()) {
+
+        }
+        System.exit(0);
 
     }
 }
