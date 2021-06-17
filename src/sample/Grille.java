@@ -51,6 +51,27 @@ public class Grille {
         }
     }
 
+    public Agent getAgent(int idAgent) {
+        for(Agent agent: agents) {
+            if(agent.getId() == idAgent) {
+                return agent;
+            }
+        }
+        return null;
+    }
+
+    public void startAgents() {
+        for (Agent agent : agents) {
+            agent.start();
+        }
+    }
+
+    public void interruptAgent() {
+        for (Agent agent : agents) {
+            agent.interrupt();
+        }
+    }
+
     /**
      * Initialisation de la grille et des agents (aléatoire).
      */
@@ -70,7 +91,6 @@ public class Grille {
             random = (int)(Math.random()*(nb_agent-i-1));
             tab_pos[i] = tab_id[random];
             tab_id[random] = tab_id[nb_agent-i-1];
-
         }
 
         for (int i = 0; i < taille*taille; i++) {
