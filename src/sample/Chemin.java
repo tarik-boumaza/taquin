@@ -54,6 +54,150 @@ public class Chemin {
     }
 
     /**
+     * Renvoie les chemins possibles entre deux positions, et leurs distances.
+     * @param depart coordonnée 1D de départ.
+     * @param arrivee coordonnée 1D de départ.
+     * @param grille grille courante
+     * @return Liste<Pair<position_suivante, distance_depart-arrivee>>
+     */
+    public static ArrayList<Pair<Integer, Integer>>chemin(final int depart,
+                                                          final int arrivee,
+                                                          final Grille grille) {
+        ArrayList<Pair<Integer, Integer>> chemins = new ArrayList<>();
+        int taille = grille.getTaille();
+
+        //depart est sur la 1ere ligne
+        if (depart < taille) {
+            //et depart est sur la premiere colonne
+            if (depart % taille == 0) {
+                if (grille.getPosGrille(depart + 1) == 0) {
+                    chemins.add(new Pair<Integer, Integer>(depart + 1,
+                            getDistance(depart, arrivee, taille)));
+                }
+                if (grille.getPosGrille(depart + taille) == 0) {
+                    chemins.add(new Pair<Integer, Integer>(depart + taille,
+                            getDistance(depart, arrivee, taille)));
+                }
+            }
+            //et depart est sur la derniere colonne
+            else if (depart % taille == taille - 1) {
+                if (grille.getPosGrille(depart - 1) == 0) {
+                    chemins.add(new Pair<Integer, Integer>(depart - 1,
+                            getDistance(depart, arrivee, taille)));
+                }
+                if (grille.getPosGrille(depart + taille) == 0) {
+                    chemins.add(new Pair<Integer, Integer>(depart + taille,
+                            getDistance(depart, arrivee, taille)));
+                }
+            }
+            else {
+                //sur la première ligne mais pas sur la première ou dernière colonne
+                if (grille.getPosGrille(depart + 1) == 0) {
+                    chemins.add(new Pair<Integer, Integer>(depart + 1,
+                            getDistance(depart, arrivee, taille)));
+                }
+                if (grille.getPosGrille(depart + taille) == 0) {
+                    chemins.add(new Pair<Integer, Integer>(depart + taille,
+                            getDistance(depart, arrivee, taille)));
+                }
+                if (grille.getPosGrille(depart - 1) == 0) {
+                    chemins.add(new Pair<Integer, Integer>(depart - 1,
+                            getDistance(depart, arrivee, taille)));
+                }
+            }
+        }
+        //sinon depart est sur la derniere ligne
+        else if (depart >= taille*(taille - 1)) {
+            //et depart est sur la premiere colonne
+            if (depart % taille == 0) {
+                if (grille.getPosGrille(depart + 1) == 0) {
+                    chemins.add(new Pair<Integer, Integer>(depart + 1,
+                            getDistance(depart, arrivee, taille)));
+                }
+                if (grille.getPosGrille(depart - taille) == 0) {
+                    chemins.add(new Pair<Integer, Integer>(depart - taille,
+                            getDistance(depart, arrivee, taille)));
+                }
+            }
+            //et depart est sur la derniere colonne
+            else if (depart % taille == taille - 1) {
+                if (grille.getPosGrille(depart - 1) == 0) {
+                    chemins.add(new Pair<Integer, Integer>(depart - 1,
+                            getDistance(depart, arrivee, taille)));
+                }
+                if (grille.getPosGrille(depart - taille) == 0) {
+                    chemins.add(new Pair<Integer, Integer>(depart - taille,
+                            getDistance(depart, arrivee, taille)));
+                }
+            }
+            // et depart pas sur la premiere ou dernière colonne
+            else {
+                if (grille.getPosGrille(depart + 1) == 0) {
+                    chemins.add(new Pair<Integer, Integer>(depart + 1,
+                            getDistance(depart, arrivee, taille)));
+                }
+                if (grille.getPosGrille(depart - taille) == 0) {
+                    chemins.add(new Pair<Integer, Integer>(depart - taille,
+                            getDistance(depart, arrivee, taille)));
+                }
+                if (grille.getPosGrille(depart - 1) == 0) {
+                    chemins.add(new Pair<Integer, Integer>(depart - 1,
+                            getDistance(depart, arrivee, taille)));
+                }
+            }
+        }
+        //sinon depart est sur la premiere colonne mais pas sur la premiere ou derniere ligne
+        else if (depart % taille == 0) {
+            if (grille.getPosGrille(depart - taille) == 0) {
+                chemins.add(new Pair<Integer, Integer>(depart - taille,
+                        getDistance(depart, arrivee, taille)));
+            }
+            if (grille.getPosGrille(depart + taille) == 0) {
+                chemins.add(new Pair<Integer, Integer>(depart + taille,
+                        getDistance(depart, arrivee, taille)));
+            }
+            if (grille.getPosGrille(depart + 1) == 0) {
+                chemins.add(new Pair<Integer, Integer>(depart + 1,
+                        getDistance(depart, arrivee, taille)));
+            }
+        }
+        //sinon depart est sur la derniere colonne mais pas sur la premiere ou derniere ligne
+        else if (depart % taille == taille - 1) {
+            if (grille.getPosGrille(depart - taille) == 0) {
+                chemins.add(new Pair<Integer, Integer>(depart - taille,
+                        getDistance(depart, arrivee, taille)));
+            }
+            if (grille.getPosGrille(depart + taille) == 0) {
+                chemins.add(new Pair<Integer, Integer>(depart + taille,
+                        getDistance(depart, arrivee, taille)));
+            }
+            if (grille.getPosGrille(depart - 1) == 0) {
+                chemins.add(new Pair<Integer, Integer>(depart - 1,
+                        getDistance(depart, arrivee, taille)));
+            }
+        }
+        else {
+            if (grille.getPosGrille(depart - taille) == 0) {
+                chemins.add(new Pair<Integer, Integer>(depart - taille,
+                        getDistance(depart, arrivee, taille)));
+            }
+            if (grille.getPosGrille(depart + taille) == 0) {
+                chemins.add(new Pair<Integer, Integer>(depart + taille,
+                        getDistance(depart, arrivee, taille)));
+            }
+            if (grille.getPosGrille(depart - 1) == 0) {
+                chemins.add(new Pair<Integer, Integer>(depart - 1,
+                        getDistance(depart, arrivee, taille)));
+            }
+            if (grille.getPosGrille(depart + 1) == 0) {
+                chemins.add(new Pair<Integer, Integer>(depart + 1,
+                        getDistance(depart, arrivee, taille)));
+            }
+        }
+        return chemins;
+    }
+
+    /**
      * Renvoie la distance entre deux points.
      * @param depart coordonnée 1D.
      * @param arrivee coordonnée 1D.

@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class Agent extends Thread {
     int position;
     final int position_finale;
-    final Queue<Pair<Integer, String>> messagerie;
+    final Queue<Message> messagerie;
     final Grille grille;
 
 
@@ -48,11 +48,29 @@ public class Agent extends Thread {
         this.position = position;
     }
 
-    public void send_message(Agent to, String message){
-        to.messagerie.add(new Pair<>(position_finale, message));
+    /**
+     * Demander à destinaire de libérer la case.
+     * @param destinataire agent à qui demander de se déplacer.
+     * @param caseLibere case à libérer.
+     */
+    public void envoieMessage(Agent destinataire, final int caseLibere){
+        destinataire.messagerie.add(new Message(this.getId(), destinataire.getId(), caseLibere));
     }
 
-    
+    /**
+     * Lire la messagerie.
+     *
+     */
+    public void litMessagerie() {
+        int[] tabPos = new int[messagerie.size()];
+        int i = 0;
+        for (Message message : messagerie) {
+            tabPos[i] = messagerie.element().getCaseLibere();
+        }
+        position = tabPos[(int) (Math.random()*(messagerie.size()))];
+        messagerie.clear();
+    }
+
     public void run(){
         System.out.println("je suis le thread : " + position_finale);
         deplace(position - 5);
