@@ -2,9 +2,25 @@ package sample;
 
 public class Grille {
 
+    /**
+     * Taille de la grille (x ou y).
+     */
     final private int taille;
+
+    /**
+     * Nombre total d'agents.
+     */
     final private int nb_agent;
+
+    /**
+     * Tableau contenant tous les agents.
+     */
     private final Agent[] agents;
+
+    /**
+     * Grille contenant les identifiants tous les agents.
+     * Chaque case contient l'identifiant unique de l'agent présent, 0 si aucun agent présent.
+     */
     private final int[] grille;
 
     public Grille(final int taille, final int nb_agent) {
@@ -20,10 +36,11 @@ public class Grille {
         this.nb_agent = agents.length;
         this.grille = new int[taille*taille];
         this.agents = agents;
-
-
     }
 
+    /**
+     * Exemple test.
+     */
     public void initExemple() {
         for(int i=0; i<taille*taille; i++){
             for(int j=0; j<nb_agent; j++){
@@ -34,6 +51,9 @@ public class Grille {
         }
     }
 
+    /**
+     * Initialisation de la grille et des agents (aléatoire).
+     */
     private void initPositions() {
         int random;
         int[] tab_id = new int[nb_agent];
@@ -76,7 +96,7 @@ public class Grille {
         return taille;
     }
 
-    public boolean grilleReconstitue() {
+    public boolean estReconstituee() {
         for (Agent agent: this.agents) {
             if(agent.getPosition() != agent.getPositionFinale()) {
                 return false;
