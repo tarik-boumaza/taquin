@@ -76,6 +76,15 @@ public class Grille {
         return taille;
     }
 
+    public boolean grilleReconstitue() {
+        for (Agent agent: this.agents) {
+            if(agent.getPosition() != agent.getPositionFinale()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
     public String toString() {
         synchronized (this){
