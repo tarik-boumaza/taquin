@@ -15,7 +15,7 @@ public class Agent extends Thread {
     public Agent(int position_finale, int position, Grille grille) {
         this.position_finale = position_finale;
         this.position = position;
-        messagerie = new ConcurrentLinkedQueue<>();
+        this.messagerie = new ConcurrentLinkedQueue<>();
         this.grille = grille;
     }
 
