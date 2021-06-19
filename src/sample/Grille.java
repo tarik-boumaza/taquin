@@ -1,6 +1,11 @@
 package sample;
 
-public class Grille {
+import javafx.application.Platform;
+
+import java.util.Observable;
+
+
+public class Grille extends Observable {
 
     /**
      * Taille de la grille (x ou y).
@@ -52,12 +57,14 @@ public class Grille {
     }
 
     public Agent getAgent(int idAgent) {
-        for(Agent agent: agents) {
-            if(agent.getId() == idAgent) {
-                return agent;
+        synchronized (this) {
+            for(Agent agent: agents) {
+                if(agent.getId() == idAgent) {
+                    return agent;
+                }
             }
+            return null;
         }
-        return null;
     }
 
     public void startAgents() {
@@ -105,24 +112,41 @@ public class Grille {
     }
 
     public int getPosGrille(final int pos){
-        return grille[pos];
+        synchronized (this) {
+            return grille[pos];
+        }
     }
 
     public void setPosGrille(final int id, final int pos){
-        grille[id] = pos;
+        synchronized (this) {
+            grille[id] = pos;
+        }
     }
 
     public int getTaille() {
         return taille;
     }
 
-    public boolean estReconstituee() {
-        for (Agent agent: this.agents) {
-            if(agent.getPosition() != agent.getPositionFinale()) {
-                return false;
+    public void majAffichage() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                setChanged();
+                notifyObservers();
             }
+        });
+
+    }
+
+    public boolean estReconstituee() {
+        synchronized (this) {
+            for (Agent agent: this.agents) {
+                if(agent.getPosition() != agent.getPositionFinale()) {
+                    return false;
+                }
+            }
+            return true;
         }
-        return true;
     }
 
     @Override

@@ -2,6 +2,8 @@ package sample;
 
 import javafx.util.Pair;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Chemin {
 
@@ -194,6 +196,9 @@ public class Chemin {
                         getDistance(depart, arrivee, taille)));
             }
         }
+        Collections.sort(chemins, Comparator.comparing(p -> p.getKey()));
+        Collections.sort(chemins, Comparator.comparing(p -> -p.getValue()));
+        System.out.println(chemins);
         return chemins;
     }
 

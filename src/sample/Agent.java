@@ -20,12 +20,13 @@ public class Agent extends Thread {
     }
 
 
-    public void deplace(final int new_pos){
+    public void deplace(final int new_pos) {
         synchronized (grille){
             if(grille.getPosGrille(new_pos) == 0){
                 grille.setPosGrille(position,0);
                 grille.setPosGrille(new_pos, (int) getId());
                 position = new_pos;
+                grille.majAffichage();
             }
         }
         System.out.println(grille.toString());
@@ -71,23 +72,30 @@ public class Agent extends Thread {
     }
 
     public void run(){
-        /*System.out.println("je suis le thread : " + position_finale);
-        deplace(position - 5);
-        System.out.println(grille);*/
+        List<Pair<Integer,Integer>> chemin;
+
+        int i = 1, temp;
         while (position != position_finale) {
-            List<Pair<Integer,Integer>> chemin = Chemin.cheminOpt(position, position_finale, grille.getTaille());
-            int temp = chemin.get(0).getKey();
-            int i = 1;
+            try {
+                sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            chemin = Chemin.cheminOpt(position, position_finale, grille.getTaille());
+            temp = chemin.get(0).getKey();
+
             System.out.println("je suis le thread " + getId() + ", je suis à " + position
                     + " et je dois aller à " + temp);
             deplace(temp);
+
             while(position != temp && i < chemin.size()) {
-                chemin = Chemin.cheminOpt(position, position_finale, grille.getTaille());
                 System.out.println("je ne me suis pas déplacé");
                 temp = chemin.get(i).getKey();
+                deplace(temp);
                 i++;
             }
-            
+
         }
         try {
             this.interrupt();
