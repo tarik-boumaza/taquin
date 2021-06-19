@@ -1,6 +1,11 @@
 package sample;
 
 import javafx.util.Pair;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -61,13 +66,37 @@ public class Agent extends Thread {
      *
      */
     public void litMessagerie() {
-        int[] tabPos = new int[messagerie.size()];
+        /*int[] tabPos = new int[messagerie.size()];
         int i = 0;
         for (Message message : messagerie) {
             tabPos[i] = messagerie.element().getCaseLibere();
         }
         position = tabPos[(int) (Math.random()*(messagerie.size()))];
-        messagerie.clear();
+        messagerie.clear();*/
+
+        Message dernierMessage = messagerie.element();
+        synchronized (grille) {
+            if (position != dernierMessage.getCaseLibere()) {
+                return;
+            }
+            List<Integer> libres = grille.getCaseLibreAutour(position);
+            if (libres.size() == 0) {
+                return;
+            }
+            List<Pair<Integer, Integer>> position_distance = new ArrayList<>();
+            for (int i = 0; i < libres.size(); i++) {
+                position_distance.add(new Pair<>(libres.get(i),
+                                        Chemin.getDistance(position_finale, libres.get(i),
+                                                grille.getTaille()*grille.getTaille())));
+            }
+            position_distance.sort(Comparator.comparing(Pair::getValue));
+            if (position_distance.get(0).getValue() < position_distance.get(1).getValue()) {
+                deplace(position_distance.get(0).getKey());
+                return;
+            }
+            deplace(libres.get((int) (Math.random() * libres.size())));
+        }
+        messagerie.remove(dernierMessage);
     }
 
     public void run(){

@@ -1,5 +1,8 @@
 package sample;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Grille {
 
     /**
@@ -123,6 +126,35 @@ public class Grille {
             }
         }
         return true;
+    }
+
+    public List<Integer>  getCaseLibreAutour(final int position) {
+        List<Integer> libres = new ArrayList<>();
+        //position n'est pas sur la première ligne
+        if (position > taille) {
+            if (grille[position - taille] == 0) {
+                libres.add(position - taille);
+            }
+        }
+        //position n'est pas sur la dernière ligne
+        if (position < taille * (taille - 1)) {
+            if (grille[position + taille] == 0) {
+                libres.add(taille * (taille - 1));
+            }
+        }
+        //position n'est pas sur la première colonne
+        if (position % taille != 0) {
+            if (grille[position  - 1] == 0) {
+                libres.add(position - 1);
+            }
+        }
+        //position n'est pas sur la première colonne
+        if (position % taille != taille) {
+            if (grille[position + 1] == 0) {
+                libres.add(position + 1);
+            }
+        }
+        return libres;
     }
 
     @Override
