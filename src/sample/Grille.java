@@ -2,9 +2,12 @@ package sample;
 
 
 import javafx.application.Platform;
+
+import java.util.Arrays;
 import java.util.Observable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Grille extends Observable{
 
@@ -93,26 +96,32 @@ public class Grille extends Observable{
         int[] tab_pos = new int[taille*taille];
 
         for (int i = 0; i < nb_agent; i++) {
-            tab_id[i] = i + 1;
+            tab_pos[i] = i + 1;
         }
-        for (int i = 0; i < taille*taille; i++) {
+        for (int i = nb_agent; i < taille*taille; i++) {
             tab_pos[i] = 0;
         }
 
-        for (int i = 0; i < nb_agent; i++) {
+        /*for (int i = 0; i < nb_agent; i++) {
             random = (int)(Math.random()*(nb_agent-i-1));
             tab_pos[i] = tab_id[random];
             tab_id[random] = tab_id[nb_agent-i-1];
-        }
+        }*/
 
+        Random rand = new Random();
+        for (int i = 0; i < tab_pos.length; i++) {
+            int randomIndexToSwap = rand.nextInt(tab_pos.length);
+            int temp = tab_pos[randomIndexToSwap];
+            tab_pos[randomIndexToSwap] = tab_pos[i];
+            tab_pos[i] = temp;
+        }
+        int j = 0;
         for (int i = 0; i < taille*taille; i++) {
-            random = (int)(Math.random()*(taille*taille-i-1));
-            grille[i] = tab_pos[random];
-            if(tab_pos[random] > 0) {
-                agents[random] = new Agent(tab_pos[random]-1, i, this);
-                System.out.println(random+ " : " + agents[random]);
+            grille[i] = tab_pos[i];
+            if(tab_pos[i] > 0) {
+                agents[j] = new Agent(tab_pos[i]-1, i, this);
+                j++;
             }
-            tab_pos[random] = tab_pos[(taille*taille)-i-1];
         }
 
     }
