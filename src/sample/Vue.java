@@ -32,17 +32,15 @@ public class Vue implements Observer {
             for (int j = 0; j < grille.getTaille(); j++) {
                 position = i* grille.getTaille()+j;
                 id_thread = grille.getPosGrille(position);
-
                 if (id_thread == 0) {
                     tab_images[i][j] = new ImageView(carre);
-                } else {
-                    Agent agent = grille.getAgent(id_thread);
-                    if (agent.getPosition() == agent.getPositionFinale()) {
-                        tab_images[i][j] = new ImageView(vert);
-                    } else {
-                        tab_images[i][j] = new ImageView(rouge);
-                    }
                 }
+                else if (id_thread == position + 1) {
+                    tab_images[i][j] = new ImageView(vert);
+                } else {
+                    tab_images[i][j] = new ImageView(rouge);
+                }
+
                 tab_images[i][j].setFitHeight(100);
                 tab_images[i][j].setPreserveRatio(true);
                 gpane.add(tab_images[i][j], j,i);

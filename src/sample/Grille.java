@@ -68,6 +68,10 @@ public class Grille extends Observable{
         }
     }
 
+    public Agent[] getAgents() {
+        return agents;
+    }
+
     public void startAgents() {
         for (Agent agent : agents) {
             agent.start();
@@ -105,7 +109,8 @@ public class Grille extends Observable{
             random = (int)(Math.random()*(taille*taille-i-1));
             grille[i] = tab_pos[random];
             if(tab_pos[random] > 0) {
-                agents[random] = new Agent(tab_pos[random] - 1, i, this);
+                agents[random] = new Agent(tab_pos[random]-1, i, this);
+                System.out.println(random+ " : " + agents[random]);
             }
             tab_pos[random] = tab_pos[(taille*taille)-i-1];
         }
@@ -160,7 +165,7 @@ public class Grille extends Observable{
         //position n'est pas sur la dernière ligne
         if (position < taille * (taille - 1)) {
             if (grille[position + taille] == 0) {
-                libres.add(taille * (taille - 1));
+                libres.add(position + taille);
             }
         }
         //position n'est pas sur la première colonne

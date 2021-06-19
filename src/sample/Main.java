@@ -11,11 +11,14 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Grille grille = new Grille(5,2);
+        Grille grille = new Grille(5,5);
+        System.out.println(grille.toString());
         Vue vue = new Vue(grille);
         grille.addObserver(vue);
-        grille.startAgents();
 
+        for (int i = 0; i < grille.getAgents().length; i++) {
+            System.out.println(grille.getAgents()[i]);
+        }
 
         BorderPane root = new BorderPane();
         root.setTop(new Text("Jeu du Taquin \n "));
@@ -23,6 +26,8 @@ public class Main extends Application {
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+        grille.startAgents();
+
     }
 
 

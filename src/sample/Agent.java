@@ -66,7 +66,7 @@ public class Agent extends Thread {
      * Lire la messagerie.
      *
      */
-    public void litMessagerie() {
+    public void litMessagerie() throws InterruptedException {
         /*int[] tabPos = new int[messagerie.size()];
         int i = 0;
         for (Message message : messagerie) {
@@ -74,14 +74,20 @@ public class Agent extends Thread {
         }
         position = tabPos[(int) (Math.random()*(messagerie.size()))];
         messagerie.clear();*/
-
+        if(messagerie.isEmpty()) {
+            return;
+        }
         Message dernierMessage = messagerie.element();
+        System.out.println(dernierMessage.getExpediteur() + " demande à " + dernierMessage.getDestinataire()
+                + " de libérer " + dernierMessage.getCaseLibere());
         synchronized (grille) {
             if (position != dernierMessage.getCaseLibere()) {
+                messagerie.remove(dernierMessage);
                 return;
             }
             List<Integer> libres = grille.getCaseLibreAutour(position);
             if (libres.size() == 0) {
+                messagerie.remove(dernierMessage);
                 return;
             }
             List<Pair<Integer, Integer>> position_distance = new ArrayList<>();
@@ -90,12 +96,15 @@ public class Agent extends Thread {
                                         Chemin.getDistance(position_finale, libres.get(i),
                                                 grille.getTaille()*grille.getTaille())));
             }
-            position_distance.sort(Comparator.comparing(Pair::getValue));
+            /*position_distance.sort(Comparator.comparing(Pair::getValue));
             if (position_distance.get(0).getValue() < position_distance.get(1).getValue()) {
                 deplace(position_distance.get(0).getKey());
-                return;
             }
+            else {
+                deplace(libres.get((int) (Math.random() * libres.size())));
+            }*/
             deplace(libres.get((int) (Math.random() * libres.size())));
+            sleep(100);
         }
         messagerie.remove(dernierMessage);
     }
@@ -104,25 +113,42 @@ public class Agent extends Thread {
         List<Pair<Integer,Integer>> chemin;
 
         int i = 1, temp;
-        while (position != position_finale) {
+        while (!grille.estReconstituee()) {
             try {
-                sleep(2000);
+                sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            try {
+                litMessagerie();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-            chemin = Chemin.cheminOpt(position, position_finale, grille.getTaille());
-            temp = chemin.get(0).getKey();
 
-            System.out.println("je suis le thread " + getId() + ", je suis à " + position
-                    + " et je dois aller à " + temp);
-            deplace(temp);
+            if(position != position_finale) {
+                chemin = Chemin.chemin(position, position_finale, grille);
+                System.out.println("mes chemins : " + chemin);
+                temp = chemin.get(0).getKey();
 
-            while(position != temp && i < chemin.size()) {
-                System.out.println("je ne me suis pas déplacé");
-                temp = chemin.get(i).getKey();
+                System.out.println("je suis le thread " + getId() + ", je suis à " + position
+                        + " et je dois aller à " + temp);
                 deplace(temp);
-                i++;
+                while(position != temp && i < chemin.size()) {
+                    System.out.println("je ne me suis pas déplacé");
+                    temp = chemin.get(i).getKey();
+                    deplace(temp);
+                    i++;
+                }
+                if(position != temp) {
+                    envoieMessage(grille.getAgent(grille.getPosGrille(temp)), temp);
+                    try {
+                        sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                deplace(temp);
             }
 
         }
@@ -132,6 +158,13 @@ public class Agent extends Thread {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    @Override
+    public String toString() {
+        return "Agent{" +
+                "position=" + position +
+                ", position_finale=" + position_finale +
+                '}';
     }
 }
