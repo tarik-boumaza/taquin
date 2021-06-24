@@ -2,6 +2,7 @@ package sample;
 
 import javafx.util.Pair;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -211,19 +212,42 @@ public class Chemin {
         return result;
     }
 
+    public static Integer cheminOptPossible(final int depart,
+                                                  final int arrivee,
+                                                  final Grille grille) {
+        List<Pair<Integer, Integer>> chemins = cheminOpt(depart, arrivee, grille.getTaille());
+        Collections.shuffle(chemins);
+        Collections.sort(chemins, Comparator.comparing(p -> p.getValue()));
+        for (int i = 0; i < chemins.size(); i++) {
+            if (grille.getPosGrille(chemins.get(i).getKey()) == 0) {
+                return chemins.get(i).getKey();
+            }
+        }
+        return null;
+    }
+
     /**
-     * Renvoie les chemins complets possibles entre deux positions, et leurs distances.
+     * Renvoie un des chemins optimaux possibles entre deux positions, et leurs distances.
+     * Renvoie null s'il n'en existe pas
      * @param depart coordonnée 1D de départ.
      * @param arrivee coordonnée 1D de départ.
      * @param grille grille courante
      * @return Liste<Pair<position_suivante, distance_depart-arrivee>>
      */
-    /*public static Pair<List<Integer>, Integer> cheminComplet(final int depart,
+    public static Pair<List<Integer>, Integer> cheminComplet(final int depart,
                                                             final int arrivee,
                                                             final Grille grille) {
         List<Integer> chemin = new ArrayList<>();
-
-    }*/
+        int dep = depart;
+        while(dep != arrivee) {
+            if (cheminOptPossible(dep, arrivee, grille) == null) {
+                return null;
+            }
+            dep = cheminOptPossible(dep, arrivee, grille);
+            chemin.add(dep);
+        }
+        return new Pair<>(chemin, getDistance(depart, arrivee, grille.getTaille()));
+    }
 
     /**
      * Renvoie la distance entre deux points.
