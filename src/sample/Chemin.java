@@ -74,37 +74,37 @@ public class Chemin {
             if (depart % taille == 0) {
                 if (grille.getPosGrille(depart + 1) == 0) {
                     chemins.add(new Pair<Integer, Integer>(depart + 1,
-                            getDistance(depart, arrivee, taille)));
+                            getDistance(depart + 1, arrivee, taille)));
                 }
                 if (grille.getPosGrille(depart + taille) == 0) {
                     chemins.add(new Pair<Integer, Integer>(depart + taille,
-                            getDistance(depart, arrivee, taille)));
+                            getDistance(depart + taille, arrivee, taille)));
                 }
             }
             //et depart est sur la derniere colonne
             else if (depart % taille == taille - 1) {
                 if (grille.getPosGrille(depart - 1) == 0) {
                     chemins.add(new Pair<Integer, Integer>(depart - 1,
-                            getDistance(depart, arrivee, taille)));
+                            getDistance(depart - 1, arrivee, taille)));
                 }
                 if (grille.getPosGrille(depart + taille) == 0) {
                     chemins.add(new Pair<Integer, Integer>(depart + taille,
-                            getDistance(depart, arrivee, taille)));
+                            getDistance(depart + taille, arrivee, taille)));
                 }
             }
             else {
                 //sur la première ligne mais pas sur la première ou dernière colonne
                 if (grille.getPosGrille(depart + 1) == 0) {
                     chemins.add(new Pair<Integer, Integer>(depart + 1,
-                            getDistance(depart, arrivee, taille)));
+                            getDistance(depart + 1, arrivee, taille)));
                 }
                 if (grille.getPosGrille(depart + taille) == 0) {
                     chemins.add(new Pair<Integer, Integer>(depart + taille,
-                            getDistance(depart, arrivee, taille)));
+                            getDistance(depart + taille, arrivee, taille)));
                 }
                 if (grille.getPosGrille(depart - 1) == 0) {
                     chemins.add(new Pair<Integer, Integer>(depart - 1,
-                            getDistance(depart, arrivee, taille)));
+                            getDistance(depart - 1, arrivee, taille)));
                 }
             }
         }
@@ -114,37 +114,37 @@ public class Chemin {
             if (depart % taille == 0) {
                 if (grille.getPosGrille(depart + 1) == 0) {
                     chemins.add(new Pair<Integer, Integer>(depart + 1,
-                            getDistance(depart, arrivee, taille)));
+                            getDistance(depart + 1, arrivee, taille)));
                 }
                 if (grille.getPosGrille(depart - taille) == 0) {
                     chemins.add(new Pair<Integer, Integer>(depart - taille,
-                            getDistance(depart, arrivee, taille)));
+                            getDistance(depart - taille, arrivee, taille)));
                 }
             }
             //et depart est sur la derniere colonne
             else if (depart % taille == taille - 1) {
                 if (grille.getPosGrille(depart - 1) == 0) {
                     chemins.add(new Pair<Integer, Integer>(depart - 1,
-                            getDistance(depart, arrivee, taille)));
+                            getDistance(depart - 1, arrivee, taille)));
                 }
                 if (grille.getPosGrille(depart - taille) == 0) {
                     chemins.add(new Pair<Integer, Integer>(depart - taille,
-                            getDistance(depart, arrivee, taille)));
+                            getDistance(depart - taille, arrivee, taille)));
                 }
             }
             // et depart pas sur la premiere ou dernière colonne
             else {
                 if (grille.getPosGrille(depart + 1) == 0) {
                     chemins.add(new Pair<Integer, Integer>(depart + 1,
-                            getDistance(depart, arrivee, taille)));
+                            getDistance(depart + 1, arrivee, taille)));
                 }
                 if (grille.getPosGrille(depart - taille) == 0) {
                     chemins.add(new Pair<Integer, Integer>(depart - taille,
-                            getDistance(depart, arrivee, taille)));
+                            getDistance(depart - taille, arrivee, taille)));
                 }
                 if (grille.getPosGrille(depart - 1) == 0) {
                     chemins.add(new Pair<Integer, Integer>(depart - 1,
-                            getDistance(depart, arrivee, taille)));
+                            getDistance(depart - 1, arrivee, taille)));
                 }
             }
         }
@@ -152,53 +152,53 @@ public class Chemin {
         else if (depart % taille == 0) {
             if (grille.getPosGrille(depart - taille) == 0) {
                 chemins.add(new Pair<Integer, Integer>(depart - taille,
-                        getDistance(depart, arrivee, taille)));
+                        getDistance(depart - taille, arrivee, taille)));
             }
             if (grille.getPosGrille(depart + taille) == 0) {
                 chemins.add(new Pair<Integer, Integer>(depart + taille,
-                        getDistance(depart, arrivee, taille)));
+                        getDistance(depart + taille, arrivee, taille)));
             }
             if (grille.getPosGrille(depart + 1) == 0) {
                 chemins.add(new Pair<Integer, Integer>(depart + 1,
-                        getDistance(depart, arrivee, taille)));
+                        getDistance(depart + 1, arrivee, taille)));
             }
         }
         //sinon depart est sur la derniere colonne mais pas sur la premiere ou derniere ligne
         else if (depart % taille == taille - 1) {
             if (grille.getPosGrille(depart - taille) == 0) {
                 chemins.add(new Pair<Integer, Integer>(depart - taille,
-                        getDistance(depart, arrivee, taille)));
+                        getDistance(depart - taille, arrivee, taille)));
             }
             if (grille.getPosGrille(depart + taille) == 0) {
                 chemins.add(new Pair<Integer, Integer>(depart + taille,
-                        getDistance(depart, arrivee, taille)));
+                        getDistance(depart + taille, arrivee, taille)));
             }
             if (grille.getPosGrille(depart - 1) == 0) {
                 chemins.add(new Pair<Integer, Integer>(depart - 1,
-                        getDistance(depart, arrivee, taille)));
+                        getDistance(depart - 1, arrivee, taille)));
             }
         }
         else {
             if (grille.getPosGrille(depart - taille) == 0) {
                 chemins.add(new Pair<Integer, Integer>(depart - taille,
-                        getDistance(depart, arrivee, taille)));
+                        getDistance(depart - taille, arrivee, taille)));
             }
             if (grille.getPosGrille(depart + taille) == 0) {
                 chemins.add(new Pair<Integer, Integer>(depart + taille,
-                        getDistance(depart, arrivee, taille)));
+                        getDistance(depart + taille, arrivee, taille)));
             }
             if (grille.getPosGrille(depart - 1) == 0) {
                 chemins.add(new Pair<Integer, Integer>(depart - 1,
-                        getDistance(depart, arrivee, taille)));
+                        getDistance(depart + 1, arrivee, taille)));
             }
             if (grille.getPosGrille(depart + 1) == 0) {
                 chemins.add(new Pair<Integer, Integer>(depart + 1,
-                        getDistance(depart, arrivee, taille)));
+                        getDistance(depart + 1, arrivee, taille)));
             }
         }
-        Collections.sort(chemins, Comparator.comparing(p -> p.getKey()));
-        Collections.sort(chemins, Comparator.comparing(p -> -p.getValue()));
-        System.out.println(chemins);
+        //Collections.sort(chemins, Comparator.comparing(p -> p.getKey()));
+        Collections.sort(chemins, Comparator.comparing(p -> p.getValue()));
+        //System.out.println(chemins);
         return chemins;
     }
 
