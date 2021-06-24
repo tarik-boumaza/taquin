@@ -21,36 +21,33 @@ public class Chemin {
         ArrayList<Pair<Integer, Integer>> chemins = new ArrayList<>();
         if (depart/taille == arrivee/taille) {
             if (depart < arrivee) {
-                chemins.add(new Pair<>(depart+1, getDistance(depart,arrivee,taille)));
+                chemins.add(new Pair<>(depart+1, getDistance(depart + 1,arrivee,taille)));
             }
             else if (depart > arrivee){
-                chemins.add(new Pair<>(depart-1, getDistance(depart,arrivee,taille)));
-            }
-            else {
-                chemins.add(new Pair<>(0, 0));
+                chemins.add(new Pair<>(depart-1, getDistance(depart - 1,arrivee,taille)));
             }
         }
         else if (depart%taille == arrivee%taille) {
             if (depart/taille < arrivee/taille) {
-                chemins.add(new Pair<>(depart+taille,  getDistance(depart,arrivee,taille)));
+                chemins.add(new Pair<>(depart+taille,  getDistance(depart + taille,arrivee,taille)));
             }
             else if (depart/taille > arrivee/taille){
-                chemins.add(new Pair<>(depart-taille, getDistance(depart,arrivee,taille)));
+                chemins.add(new Pair<>(depart-taille, getDistance(depart - taille,arrivee,taille)));
             }
         }
         else {
             if (depart/taille < arrivee/taille) {
-                chemins.add(new Pair<>(depart + taille, getDistance(depart, arrivee, taille)));
+                chemins.add(new Pair<>(depart + taille, getDistance(depart + taille, arrivee, taille)));
             }
-            else {
-                chemins.add(new Pair<>(depart - taille, getDistance(depart, arrivee, taille)));
+            else if (depart/taille > arrivee/taille) {
+                chemins.add(new Pair<>(depart - taille, getDistance(depart - taille, arrivee, taille)));
             }
 
             if (depart%taille < arrivee%taille) {
-                chemins.add(new Pair<>(depart+1, getDistance(depart,arrivee,taille)));
+                chemins.add(new Pair<>(depart+1, getDistance(depart + 1,arrivee,taille)));
             }
-            else {
-                chemins.add(new Pair<>(depart-1, getDistance(depart,arrivee,taille)));
+            else if (depart%taille > arrivee%taille) {
+                chemins.add(new Pair<>(depart-1, getDistance(depart - 1,arrivee,taille)));
             }
         }
         return chemins;
