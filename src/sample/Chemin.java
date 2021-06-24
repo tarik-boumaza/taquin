@@ -4,6 +4,7 @@ import javafx.util.Pair;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class Chemin {
 
@@ -62,7 +63,7 @@ public class Chemin {
      * @param grille grille courante
      * @return Liste<Pair<position_suivante, distance_depart-arrivee>>
      */
-    public static ArrayList<Pair<Integer, Integer>>chemin(final int depart,
+    public static List<Pair<Integer, Integer>>chemin(final int depart,
                                                           final int arrivee,
                                                           final Grille grille) {
         ArrayList<Pair<Integer, Integer>> chemins = new ArrayList<>();
@@ -198,8 +199,33 @@ public class Chemin {
         }
         //Collections.sort(chemins, Comparator.comparing(p -> p.getKey()));
         Collections.sort(chemins, Comparator.comparing(p -> p.getValue()));
-        //System.out.println(chemins);
-        return chemins;
+
+        List<Pair<Integer, Integer>> result = new ArrayList<>();
+        int i = 0;
+        while (i < chemins.size()) {
+            if (chemins.get(0).getValue() >= chemins.get(i).getValue()) {
+                result.add(chemins.get(i));
+            }
+            i++;
+        }
+
+        System.out.println("chemins : " + chemins);
+        System.out.println("result : " + result);
+        return result;
+    }
+
+    /**
+     * Renvoie les chemins complets possibles entre deux positions, et leurs distances.
+     * @param depart coordonnée 1D de départ.
+     * @param arrivee coordonnée 1D de départ.
+     * @param grille grille courante
+     * @return Liste<Pair<position_suivante, distance_depart-arrivee>>
+     */
+    public static Pair<List<Integer>, Integer> cheminComplet(final int depart,
+                                                            final int arrivee,
+                                                            final Grille grille) {
+        List<Integer> chemin = new ArrayList<>();
+
     }
 
     /**
