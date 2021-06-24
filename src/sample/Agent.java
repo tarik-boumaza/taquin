@@ -130,25 +130,29 @@ public class Agent extends Thread {
                 chemin = Chemin.chemin(position, position_finale, grille);
                 System.out.println("mes chemins : " + chemin);
                 temp = chemin.get(0).getKey();
+                if (chemin.size() > 0) {
 
-                System.out.println("je suis le thread " + getId() + ", je suis à " + position
-                        + " et je dois aller à " + temp);
-                deplace(temp);
-                while(position != temp && i < chemin.size()) {
-                    System.out.println("je ne me suis pas déplacé");
-                    temp = chemin.get(i).getKey();
+                    System.out.println("je suis le thread " + getId() + ", je suis à " + position
+                            + " et je dois aller à " + temp);
                     deplace(temp);
-                    i++;
-                }
-                if(position != temp) {
-                    envoieMessage(grille.getAgent(grille.getPosGrille(temp)), temp);
-                    try {
-                        sleep(10);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    while(position != temp && i < chemin.size()) {
+                        System.out.println("je ne me suis pas déplacé");
+                        temp = chemin.get(i).getKey();
+                        deplace(temp);
+                        i++;
                     }
+                    if(position != temp) {
+                        envoieMessage(grille.getAgent(grille.getPosGrille(temp)), temp);
+                        try {
+                            sleep(10);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        deplace(temp);
+                    }
+
                 }
-                deplace(temp);
+
             }
 
         }
