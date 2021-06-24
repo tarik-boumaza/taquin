@@ -179,8 +179,8 @@ public class Grille extends Observable{
                 autour.add(position - 1);
             }
         }
-        //position n'est pas sur la première colonne
-        if (position % taille != taille) {
+        //position n'est pas sur la dernière colonne
+        if (position % taille != taille - 1) {
             if (grille[position + 1] == 0) {
                 autour.add(position + 1);
             }
@@ -203,8 +203,8 @@ public class Grille extends Observable{
         if (position % taille != 0) {
             libres.add(position - 1);
         }
-        //position n'est pas sur la première colonne
-        if (position % taille != taille) {
+        //position n'est pas sur la dernière colonne
+        if (position % taille != taille - 1) {
             libres.add(position + 1);
         }
         Collections.shuffle(libres);

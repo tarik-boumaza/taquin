@@ -15,12 +15,14 @@ public class Agent extends Thread {
     final int position_finale;
     final Queue<Message> messagerie;
     final Grille grille;
+    final List<Integer> last_expeditor;
 
 
     public Agent(int position_finale, int position, Grille grille) {
         this.position_finale = position_finale;
         this.position = position;
         this.messagerie = new ConcurrentLinkedQueue<>();
+        this.last_expeditor = new ArrayList<>();
         this.grille = grille;
     }
 
@@ -103,7 +105,13 @@ public class Agent extends Thread {
                                         Chemin.getDistance(position_finale, libres.get(i),
                                                 grille.getTaille()*grille.getTaille())));
             }
+            if(libres.contains(grille.getAgent((int) dernierMessage.getExpediteur()).position)) {
+                int id = libres.indexOf(grille.getAgent((int) dernierMessage.getExpediteur()).position);
+                libres.remove(id);
+            }
+            last_expeditor.add((int) dernierMessage.getExpediteur());
             temp = libres.get((int) (Math.random() * libres.size()));
+
             /*position_distance.sort(Comparator.comparing(Pair::getValue));
             if (position_distance.get(0).getValue() < position_distance.get(1).getValue()) {
                 deplace(position_distance.get(0).getKey());
@@ -123,7 +131,7 @@ public class Agent extends Thread {
                     deplace(temp);
                 }
             } else {
-                sleep(100);
+                sleep(500);
             }
         }
         messagerie.remove(dernierMessage);
@@ -157,11 +165,20 @@ public class Agent extends Thread {
                             + " et je dois aller à " + temp);
                     deplace(temp);
 
+                    while(position != temp && i < chemin.size()) {
+                        System.out.println("je ne me suis pas déplacé");
+                        temp = chemin.get(i).getKey();
+                        deplace(temp);
+                        i++;
+                    }
                     if(position != temp) {
                         synchronized (grille) {
-                            if(grille.getAgent(grille.getPosGrille(temp)) != null) {
-                                envoieMessage(grille.getAgent(grille.getPosGrille(temp)), temp);
-                                System.out.println("je suis le thread " + getId() + " j'envoie un sms à " + grille.getPosGrille(temp));
+                            int id_agent = grille.getPosGrille(temp);
+                            if((grille.getAgent(id_agent) != null)) {
+                                if ((last_expeditor.isEmpty()) || ((!last_expeditor.isEmpty()) && (id_agent != last_expeditor.get(last_expeditor.size() - 1) ))) {
+                                    envoieMessage(grille.getAgent(grille.getPosGrille(temp)), temp);
+                                    System.out.println("je suis le thread " + getId() + " j'envoie un sms à " + grille.getPosGrille(temp));
+                                }
                             }
                         }
 
@@ -172,12 +189,7 @@ public class Agent extends Thread {
                         }
                         deplace(temp);
                     }
-                    while(position != temp && i < chemin.size()) {
-                        System.out.println("je ne me suis pas déplacé");
-                        temp = chemin.get(i).getKey();
-                        deplace(temp);
-                        i++;
-                    }
+
                     try {
                         sleep(10*getId());
                     } catch (InterruptedException e) {
