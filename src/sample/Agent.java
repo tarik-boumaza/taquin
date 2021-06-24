@@ -74,7 +74,10 @@ public class Agent extends Thread {
         }
         position = tabPos[(int) (Math.random()*(messagerie.size()))];
         messagerie.clear();*/
+
+        int temp;
         if(messagerie.isEmpty()) {
+            System.out.println("Je suis le thread " + getId() + " et je n'ai pas de nouveau message");
             return;
         }
         Message dernierMessage = messagerie.element();
@@ -85,8 +88,12 @@ public class Agent extends Thread {
                 messagerie.remove(dernierMessage);
                 return;
             }
-            List<Integer> libres = grille.getCaseLibreAutour(position);
+            List<Integer> libres = grille.getCaseAutour(position);
             if (libres.size() == 0) {
+                libres = grille.getCaseAutour(position);
+                temp = libres.get(0);
+                envoieMessage(grille.getAgent(grille.getPosGrille(libres.get(0))), libres.get(0));
+                System.out.println("je suis le thread " + getId() + " j'envoie un sms à " + grille.getPosGrille(libres.get(0)));
                 messagerie.remove(dernierMessage);
                 return;
             }
@@ -96,6 +103,7 @@ public class Agent extends Thread {
                                         Chemin.getDistance(position_finale, libres.get(i),
                                                 grille.getTaille()*grille.getTaille())));
             }
+            temp = libres.get((int) (Math.random() * libres.size()));
             /*position_distance.sort(Comparator.comparing(Pair::getValue));
             if (position_distance.get(0).getValue() < position_distance.get(1).getValue()) {
                 deplace(position_distance.get(0).getKey());
@@ -103,8 +111,20 @@ public class Agent extends Thread {
             else {
                 deplace(libres.get((int) (Math.random() * libres.size())));
             }*/
-            deplace(libres.get((int) (Math.random() * libres.size())));
-            sleep(100);
+        }
+
+        deplace(temp);
+        synchronized (grille) {
+            if (position != temp) {
+                if(grille.getAgent(grille.getPosGrille(temp)) != null) {
+                    envoieMessage(grille.getAgent(grille.getPosGrille(temp)), temp);
+                    System.out.println("je suis le thread " + getId() + " j'envoie un sms à " + grille.getPosGrille(temp));
+                } else {
+                    deplace(temp);
+                }
+            } else {
+                sleep(100);
+            }
         }
         messagerie.remove(dernierMessage);
     }
@@ -113,9 +133,10 @@ public class Agent extends Thread {
         List<Pair<Integer,Integer>> chemin;
 
         int i = 1, temp;
+        int compteur = 0;
         while (!grille.estReconstituee()) {
             try {
-                sleep(1000);
+                sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -128,17 +149,24 @@ public class Agent extends Thread {
 
             if(position != position_finale) {
                 chemin = Chemin.chemin(position, position_finale, grille);
+                compteur++;
                 System.out.println("mes chemins : " + chemin);
-                if (chemin.size() > 0) {
+                if (chemin.size() > 0 && compteur < 5) {
                     temp = chemin.get(0).getKey();
                     System.out.println("je suis le thread " + getId() + ", je suis à " + position
                             + " et je dois aller à " + temp);
                     deplace(temp);
 
                     if(position != temp) {
-                        envoieMessage(grille.getAgent(grille.getPosGrille(temp)), temp);
+                        synchronized (grille) {
+                            if(grille.getAgent(grille.getPosGrille(temp)) != null) {
+                                envoieMessage(grille.getAgent(grille.getPosGrille(temp)), temp);
+                                System.out.println("je suis le thread " + getId() + " j'envoie un sms à " + grille.getPosGrille(temp));
+                            }
+                        }
+
                         try {
-                            sleep(100);
+                            sleep(10);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -151,11 +179,44 @@ public class Agent extends Thread {
                         i++;
                     }
                     try {
-                        sleep(100*getId());
+                        sleep(10*getId());
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                }
+                else {
+                    System.out.println("compteur : " + compteur);
+                    chemin = Chemin.cheminOpt(position, position_finale, grille.getTaille());
+                    if (chemin.size() > 0) {
+                        temp = chemin.get(0).getKey();
 
+                        deplace(temp);
+                        if (position != temp) {
+                            synchronized (grille) {
+                                if(grille.getAgent(grille.getPosGrille(temp)) != null) {
+                                    envoieMessage(grille.getAgent(grille.getPosGrille(temp)), temp);
+                                    System.out.println("je suis le thread " + getId() + " j'envoie un sms à " + grille.getPosGrille(temp));
+                                    System.out.println(grille.getAgent(grille.getPosGrille(temp)).messagerie);
+                                }
+
+                            }
+                            try {
+                                sleep(100);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            deplace(temp);
+                            if (position == temp) {
+                                compteur = 0;
+                            }
+                        }
+                        else {
+                            compteur = 0;
+                        }
+                    }
+                    else {
+                        System.out.println("!!!!!!! Big problem there !!!!!!!");
+                    }
                 }
 
             }

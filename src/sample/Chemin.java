@@ -208,9 +208,9 @@ public class Chemin {
             }
             i++;
         }
-
-        System.out.println("chemins : " + chemins);
-        System.out.println("result : " + result);
+        Collections.shuffle(result);
+//        System.out.println("chemins : " + chemins);
+//        System.out.println("result : " + result);
         return result;
     }
 
@@ -221,12 +221,12 @@ public class Chemin {
      * @param grille grille courante
      * @return Liste<Pair<position_suivante, distance_depart-arrivee>>
      */
-    public static Pair<List<Integer>, Integer> cheminComplet(final int depart,
+    /*public static Pair<List<Integer>, Integer> cheminComplet(final int depart,
                                                             final int arrivee,
                                                             final Grille grille) {
         List<Integer> chemin = new ArrayList<>();
 
-    }
+    }*/
 
     /**
      * Renvoie la distance entre deux points.

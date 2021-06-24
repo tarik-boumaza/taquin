@@ -3,11 +3,7 @@ package sample;
 
 import javafx.application.Platform;
 
-import java.util.Arrays;
-import java.util.Observable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Grille extends Observable{
 
@@ -164,31 +160,54 @@ public class Grille extends Observable{
     }
 
     public List<Integer>  getCaseLibreAutour(final int position) {
-        List<Integer> libres = new ArrayList<>();
+        List<Integer> autour = new ArrayList<>();
         //position n'est pas sur la première ligne
         if (position > taille) {
             if (grille[position - taille] == 0) {
-                libres.add(position - taille);
+                autour.add(position - taille);
             }
         }
         //position n'est pas sur la dernière ligne
         if (position < taille * (taille - 1)) {
             if (grille[position + taille] == 0) {
-                libres.add(position + taille);
+                autour.add(position + taille);
             }
         }
         //position n'est pas sur la première colonne
         if (position % taille != 0) {
             if (grille[position  - 1] == 0) {
-                libres.add(position - 1);
+                autour.add(position - 1);
             }
         }
         //position n'est pas sur la première colonne
         if (position % taille != taille) {
             if (grille[position + 1] == 0) {
-                libres.add(position + 1);
+                autour.add(position + 1);
             }
         }
+        Collections.shuffle(autour);
+        return autour;
+    }
+
+    public List<Integer>  getCaseAutour(final int position) {
+        List<Integer> libres = new ArrayList<>();
+        //position n'est pas sur la première ligne
+        if (position > taille) {
+            libres.add(position - taille);
+        }
+        //position n'est pas sur la dernière ligne
+        if (position < taille * (taille - 1)) {
+            libres.add(position + taille);
+        }
+        //position n'est pas sur la première colonne
+        if (position % taille != 0) {
+            libres.add(position - 1);
+        }
+        //position n'est pas sur la première colonne
+        if (position % taille != taille) {
+            libres.add(position + 1);
+        }
+        Collections.shuffle(libres);
         return libres;
     }
 
