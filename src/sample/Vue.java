@@ -38,7 +38,7 @@ public class Vue implements Observer {
                 else if (id_thread == position + 1) {
                     tab_images[i][j] = new ImageView(vert);
                 } else {
-                    tab_images[i][j] = new ImageView(rouge);
+                    tab_images[i][j] = new ImageView(new Image(filepath + id_thread + "-rouge.png"));
                 }
 
                 tab_images[i][j].setFitHeight(100);
