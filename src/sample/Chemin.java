@@ -190,7 +190,7 @@ public class Chemin {
             }
             if (grille.getPosGrille(depart - 1) == 0) {
                 chemins.add(new Pair<Integer, Integer>(depart - 1,
-                        getDistance(depart + 1, arrivee, taille)));
+                        getDistance(depart - 1, arrivee, taille)));
             }
             if (grille.getPosGrille(depart + 1) == 0) {
                 chemins.add(new Pair<Integer, Integer>(depart + 1,
