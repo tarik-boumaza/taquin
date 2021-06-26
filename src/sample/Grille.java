@@ -33,6 +33,7 @@ public class Grille extends Observable{
         this.nb_agent = nb_agent;
         this.grille = new int[taille*taille];
         this.agents = new Agent[nb_agent];
+        //initExemple();
         initPositions();
     }
 
@@ -46,14 +47,31 @@ public class Grille extends Observable{
     /**
      * Exemple test.
      */
-    public void initExemple() {
-        for(int i=0; i<taille*taille; i++){
-            for(int j=0; j<nb_agent; j++){
-                if(i == agents[j].getPosition()){
-                    grille[i] = agents[j].getPositionFinale();
-                }
+    private void initExemple() {
+        int[] tab_pos = new int[taille*taille];
+        for (int i = 0; i < taille*taille; i++) {
+            tab_pos[i] = 0;
+        }
+        for (int i = 0; i < 8; i++) {
+            tab_pos[i] = i+1;
+        }
+        tab_pos[9] = 10;
+        tab_pos[10] = 14;
+        tab_pos[12] = 13;
+        tab_pos[14] = 12;
+        tab_pos[17] = 9;
+        tab_pos[18] = 11;
+        tab_pos[24] = 15;
+
+        int j = 0;
+        for (int i = 0; i < taille*taille; i++) {
+            grille[i] = tab_pos[i];
+            if(tab_pos[i] > 0) {
+                agents[j] = new Agent(tab_pos[i]-1, i, this);
+                j++;
             }
         }
+
     }
 
     public Agent getAgent(int idAgent) {
@@ -87,8 +105,6 @@ public class Grille extends Observable{
      * Initialisation de la grille et des agents (aléatoire).
      */
     private void initPositions() {
-        int random;
-        int[] tab_id = new int[nb_agent];
         int[] tab_pos = new int[taille*taille];
 
         for (int i = 0; i < nb_agent; i++) {
@@ -159,6 +175,10 @@ public class Grille extends Observable{
         }
     }
 
+    public int[] getGrille() {
+        return grille;
+    }
+
     public List<Integer>  getCaseLibreAutour(final int position) {
         List<Integer> autour = new ArrayList<>();
         //position n'est pas sur la première ligne
@@ -207,8 +227,23 @@ public class Grille extends Observable{
         if (position % taille != taille - 1) {
             libres.add(position + 1);
         }
+        System.out.println("Les cases autour de " + position + " : " + libres);
         Collections.shuffle(libres);
         return libres;
+    }
+
+    public int ligneReconstituee() {
+        int i, j;
+        synchronized (grille) {
+            for (i = 0; i < taille; i++) {
+                for (j = 0; j < taille; j++) {
+                    if (grille[i*taille+j] != (i*taille+j+1)) {
+                        return i;
+                    }
+                }
+            }
+        }
+        return taille;
     }
 
     @Override
