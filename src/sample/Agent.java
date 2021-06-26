@@ -29,7 +29,7 @@ public class Agent extends Thread {
                 grille.setPosGrille(new_pos, (int) getId());
                 position = new_pos;
                 grille.majAffichage();
-                System.out.println(grille.toString());
+                //System.out.println(grille.toString());
             }
         }
     }
@@ -74,18 +74,18 @@ public class Agent extends Thread {
 
         int temp;
         if(messagerie.isEmpty()) {
-            System.out.println("Je suis le thread " + getId() + " et je n'ai pas de nouveau message");
+            //System.out.println("Je suis le thread " + getId() + " et je n'ai pas de nouveau message");
             return;
         }
         Message dernierMessage = messagerie.element();
-        System.out.println(dernierMessage.getExpediteur() + " demande à " + dernierMessage.getDestinataire()
-                + " de libérer " + dernierMessage.getCaseLibere());
+//        System.out.println(dernierMessage.getExpediteur() + " demande à " + dernierMessage.getDestinataire()
+//                + " de libérer " + dernierMessage.getCaseLibere());
 
+        if (position != dernierMessage.getCaseLibere()) {
+            messagerie.remove(dernierMessage);
+            return;
+        }
         synchronized (grille) {
-            if (position != dernierMessage.getCaseLibere()) {
-                messagerie.remove(dernierMessage);
-                return;
-            }
             List<Integer> libres = grille.getCaseAutour(position);
 //            if (libres.size() == 0) {
 //                libres = grille.getCaseAutour(position);
@@ -136,7 +136,7 @@ public class Agent extends Thread {
         deplace(temp);
         messagerie.remove(dernierMessage);
         try {
-            sleep((int)(10*Math.random()));
+            sleep((int)(100*Math.random()));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -161,12 +161,12 @@ public class Agent extends Thread {
             if (position != position_finale) {
                 synchronized (grille) {
                     chemin = Chemin.chemin(position, position_finale, grille);
-                    System.out.println("mes chemins : " + chemin);
+                    //System.out.println("mes chemins : " + chemin);
 
                     if (chemin.size() > 0) {
                         temp = chemin.get(0).getKey();
-                        System.out.println("je suis le thread " + getId() + ", je suis à " + position
-                                + " et je dois aller à " + temp);
+//                        System.out.println("je suis le thread " + getId() + ", je suis à " + position
+//                                + " et je dois aller à " + temp);
                         deplace(temp);
 
                         /*while (position != temp && i < chemin.size()) {
@@ -180,7 +180,7 @@ public class Agent extends Thread {
                 if (position != position_finale &&
                         (chemin.size() == 0 || Chemin.cheminComplet(position,position_finale, grille) == null)) {
                     chemin = Chemin.cheminOpt(position, position_finale, grille.getTaille());
-                    if (chemin.size() >= 0) {
+                    if (chemin.size() > 0) {
                         temp = chemin.get(0).getKey();
                         deplace(temp);
 
@@ -195,11 +195,12 @@ public class Agent extends Thread {
                                     }
                                 }
                             }
-                            long debut = System.currentTimeMillis();
-                            int random = (int) (500*Math.random());
-                            while(position != temp && System.currentTimeMillis() < debut + random) {
-                                deplace(temp);
-                            }
+                            deplace(temp);
+//                            long debut = System.currentTimeMillis();
+//                            int random = (int) (500*Math.random());
+//                            while(position != temp && System.currentTimeMillis() < debut + random) {
+//
+//                            }
                         }
                     }
                 }

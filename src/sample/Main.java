@@ -14,7 +14,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Grille grille = new Grille(3,7);
+        Grille grille = new Grille(5,10);
         System.out.println(grille.toString());
         Vue vue = new Vue(grille);
         grille.addObserver(vue);
@@ -44,19 +44,13 @@ public class Main extends Application {
 
 
     public static void main(String[] args) throws InterruptedException {
-        launch(args);
-        /*Agent[] agents = new Agent[2];
-        Grille grille = new Grille(5, agents);
-        agents[0] = new Agent(0, 6, grille);
-        agents[1] = new Agent(1,7, grille);
-        grille.initExemple();
-
-        Grille grille = new Grille(5,2);
-        System.out.println(grille);
+        //launch(args);
+        Grille grille = new Grille(5,20);
         grille.startAgents();
 
         while(!grille.estReconstituee()) {}
+        System.out.println(grille.toString());
         System.out.println("fin");
-        System.exit(0);*/
+        System.exit(0);
     }
 }
