@@ -22,8 +22,6 @@ public class Vue implements Observer {
 
     public void setGrille() {
         String filepath = "data/images/";
-        Image rouge = new Image(filepath + "rouge.png");
-        Image vert = new Image(filepath + "vert.png");
         Image carre = new Image(filepath + "carre.png");
 
         int position;
@@ -33,12 +31,13 @@ public class Vue implements Observer {
                 position = i* grille.getTaille()+j;
                 id_thread = grille.getPosGrille(position);
                 if (id_thread == 0) {
+                    System.out.println(filepath + "carre.png");
                     tab_images[i][j] = new ImageView(carre);
                 }
                 else if (id_thread == position + 1) {
-                    tab_images[i][j] = new ImageView(vert);
+                    tab_images[i][j] = new ImageView(new Image(filepath + id_thread + "-vert.png"));
                 } else {
-                    tab_images[i][j] = new ImageView(rouge);
+                    tab_images[i][j] = new ImageView(new Image(filepath + id_thread + "-rouge.png"));
                 }
 
                 tab_images[i][j].setFitHeight(100);
