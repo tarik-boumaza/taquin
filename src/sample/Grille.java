@@ -227,7 +227,6 @@ public class Grille extends Observable{
         if (position % taille != taille - 1) {
             libres.add(position + 1);
         }
-        System.out.println("Les cases autour de " + position + " : " + libres);
         Collections.shuffle(libres);
         return libres;
     }

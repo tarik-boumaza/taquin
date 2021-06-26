@@ -31,7 +31,7 @@ public class Agent extends Thread {
                 grille.setPosGrille(new_pos, (int) getId());
                 position = new_pos;
                 grille.majAffichage();
-                System.out.println(grille.toString());
+                //System.out.println(grille.toString());
             }
         }
     }
@@ -124,12 +124,12 @@ public class Agent extends Thread {
 
         int temp;
         if(messagerie.isEmpty()) {
-            System.out.println("Je suis le thread " + getId() + " et je n'ai pas de nouveau message");
+            //System.out.println("Je suis le thread " + getId() + " et je n'ai pas de nouveau message");
             return;
         }
         Message dernierMessage = messagerie.element();
-        System.out.println(dernierMessage.getExpediteur() + " demande à " + dernierMessage.getDestinataire()
-                + " de libérer " + dernierMessage.getCaseLibere());
+//        System.out.println(dernierMessage.getExpediteur() + " demande à " + dernierMessage.getDestinataire()
+//                + " de libérer " + dernierMessage.getCaseLibere());
 
         if (position != dernierMessage.getCaseLibere()) {
             messagerie.remove(dernierMessage);
@@ -159,8 +159,8 @@ public class Agent extends Thread {
                 int id = libres.indexOf(grille.getAgent((int) dernierMessage.getExpediteur()).position);
                 libres.remove(id);
             }
-            List<Integer>  libres_priorise = new ArrayList<>();
-            /*for (Integer id : libres) {
+            /*List<Integer>  libres_priorise = new ArrayList<>();
+            for (Integer id : libres) {
                 if (id / grille.getTaille() < position / grille.getTaille()) {
                     libres_priorise.add(id);
                 }
@@ -177,6 +177,7 @@ public class Agent extends Thread {
             else {
                 deplace(libres.get((int) (Math.random() * libres.size())));
             }*/
+            libres = null;
         }
 
         deplace(temp);
@@ -185,7 +186,7 @@ public class Agent extends Thread {
                 if(grille.getAgent(grille.getPosGrille(temp)) != null) {
                     envoieMessage(grille.getAgent(grille.getPosGrille(temp)), temp);
                     //suspend();
-                    System.out.println("je suis le thread " + getId() + " j'envoie un sms à " + grille.getPosGrille(temp));
+                    //System.out.println("je suis le thread " + getId() + " j'envoie un sms à " + grille.getPosGrille(temp));
                 } else {
                     deplace(temp);
                     //grille.getAgent((int) dernierMessage.getExpediteur()).resume();
@@ -205,7 +206,7 @@ public class Agent extends Thread {
         List<Pair<Integer,Integer>> chemin;
 
         int i = 1, temp;
-        int compteur = 0;
+        int nb = 2;
         while (!grille.estReconstituee()) {
             try {
                 sleep((int) (500 * Math.random()));
@@ -239,12 +240,11 @@ public class Agent extends Thread {
                     }
                     if (position != position_finale &&
                             (chemin.size() == 0 || Chemin.cheminComplet(position,position_finale, grille) == null)) {
-
-                        int nb = 2;
+                        nb = 2;
                         while (nb > 0) {
                             chemin = Chemin.cheminOpt(position, position_finale, grille.getTaille());
                             Collections.shuffle(chemin);
-                            System.out.println("chemins opt : " + chemin);
+                            //System.out.println("chemins opt : " + chemin);
                             if (chemin.size() > 0) {
                                 temp = chemin.get(0).getKey();
                                 deplace(temp);
@@ -255,7 +255,7 @@ public class Agent extends Thread {
                                             if (last_expeditor.isEmpty() || id_Agent != last_expeditor.get(last_expeditor.size() - 1)) {
                                                 envoieMessage(grille.getAgent(id_Agent), temp);
                                                 //suspend();
-                                                System.out.println("je suis le thread " + getId() + " j'envoie un sms à " + grille.getPosGrille(temp));
+                                                //System.out.println("je suis le thread " + getId() + " j'envoie un sms à " + grille.getPosGrille(temp));
                                                 //System.out.println(grille.getAgent(grille.getPosGrille(temp)).messagerie);
                                             }
                                         }
