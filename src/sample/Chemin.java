@@ -239,12 +239,14 @@ public class Chemin {
                                                             final Grille grille) {
         List<Integer> chemin = new ArrayList<>();
         int dep = depart;
-        while(dep != arrivee) {
-            if (cheminOptPossible(dep, arrivee, grille) == null) {
-                return null;
+        synchronized (grille) {
+            while(dep != arrivee) {
+                if (cheminOptPossible(dep, arrivee, grille) == null) {
+                    return null;
+                }
+                dep = cheminOptPossible(dep, arrivee, grille);
+                chemin.add(dep);
             }
-            dep = cheminOptPossible(dep, arrivee, grille);
-            chemin.add(dep);
         }
         return new Pair<>(chemin, getDistance(depart, arrivee, grille.getTaille()));
     }

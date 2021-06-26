@@ -14,7 +14,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Grille grille = new Grille(5,10);
+        Grille grille = new Grille(3,7);
         System.out.println(grille.toString());
         Vue vue = new Vue(grille);
         grille.addObserver(vue);

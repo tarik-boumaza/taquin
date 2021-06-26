@@ -31,7 +31,6 @@ public class Vue implements Observer {
                 position = i* grille.getTaille()+j;
                 id_thread = grille.getPosGrille(position);
                 if (id_thread == 0) {
-                    System.out.println(filepath + "carre.png");
                     tab_images[i][j] = new ImageView(carre);
                 }
                 else if (id_thread == position + 1) {
