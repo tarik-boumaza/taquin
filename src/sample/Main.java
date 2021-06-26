@@ -53,5 +53,17 @@ public class Main extends Application {
         System.out.println(grille.toString());
         System.out.println("fin");
         System.exit(0);*/
+        /*
+         Grille grille;
+        int N = 5;
+        long debut = System.currentTimeMillis();
+        for (int i = 0; i < N; i++) {
+            grille= new Grille(5,20);
+            grille.startAgents();
+            while(!grille.estReconstituee()) {}
+        }
+        System.out.println("Temps moyen : " + (System.currentTimeMillis() - debut)/(double)(N*1000));
+        System.exit(0);
+         */
     }
 }
