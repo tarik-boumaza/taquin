@@ -104,6 +104,7 @@ public class Agent extends Thread {
             return;
         }
         synchronized (grille.getGrille()) {
+        		//on cherche à se deplacer dans les cases autour d'abord
             List<Integer> libres = grille.getCaseAutour(position);
             if(libres.contains(grille.getAgent((int) dernierMessage.getExpediteur()).position)) {
                 int id = libres.indexOf(grille.getAgent((int) dernierMessage.getExpediteur()).position);
@@ -116,6 +117,7 @@ public class Agent extends Thread {
         }
         deplace(temp);
         synchronized (grille.getGrille()) {
+        		//si on n'a pas pu se déplacer, on demande à un voisin de se déplacer aussi
             if (position != temp) {
                 if(grille.getAgent(grille.getPosGrille(temp)) != null) {
                     envoieMessage(grille.getAgent(grille.getPosGrille(temp)), temp);
@@ -139,11 +141,13 @@ public class Agent extends Thread {
         int i = 1, temp;
         int nb;
         while (!grille.estReconstituee()) {
+        		//stop pour l'affichage
             try {
                 sleep((int) (500 * Math.random()));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            //on commence par lire la messagerie (coopération)
             try {
                 litMessagerie();
             } catch (InterruptedException e) {
@@ -152,16 +156,20 @@ public class Agent extends Thread {
             //seule la première ligne non reconstituée travaille, les autres agents coopérent seulement
             if (grille.ligneReconstituee() >= position_finale / grille.getTaille()) {
                 if (position != position_finale) {
+                    //bloque la grille
                     synchronized (grille.getGrille()) {
+                        //recherche d'un chemin vers sa position finale et s'y rend s'il en existe un
                         chemin = Chemin.chemin(position, position_finale, grille);
                         if (chemin.size() > 0) {
                             temp = chemin.get(0).getKey();
                             deplace(temp);
                         }
                     }
+                    //si je n'ai pas pu me déplacer
                     if (position != position_finale &&
                             (chemin.size() == 0 || Chemin.cheminComplet(position,position_finale, grille) == null)) {
                         nb = 2;
+                        //recherche du chemin optimal. 2 déplacements si possible
                         while (nb > 0) {
                             chemin = Chemin.cheminOpt(position, position_finale, grille.getTaille());
                             Collections.shuffle(chemin);
@@ -171,18 +179,20 @@ public class Agent extends Thread {
                                 if (position != temp) {
                                     synchronized (grille.getGrille()) {
                                         int id_Agent = grille.getPosGrille(temp);
+                                        //pas de déplassement : envoi d'un message
                                         if(grille.getAgent(id_Agent) != null) {
                                             if (last_expeditor.isEmpty() || id_Agent != last_expeditor.get(last_expeditor.size() - 1)) {
                                                 envoieMessage(grille.getAgent(id_Agent), temp);
                                             }
                                         }
                                     }
+                                    //attente de déplacement des voisins
                                     try {
                                         sleep((int)(100*Math.random()));
                                     } catch (InterruptedException e) {
                                         e.printStackTrace();
                                     }
-
+                                    //tentative de déplacement
                                     deplace(temp);
                                 }
                             }
