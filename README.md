@@ -19,7 +19,9 @@
 │       ├── Main.java
 │       ├── Message.java
 │       └── Vue.java
-└── rapport.pdf
+└── doc
+│   ├── demonstration.mp4    #video de demonstration
+|   └── rapport.pdf          #rapport de projet
 
 
 ## Code Java
