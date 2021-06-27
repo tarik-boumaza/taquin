@@ -28,6 +28,11 @@ public class Grille extends Observable{
      */
     private final int[] grille;
 
+    /**
+     * Constructeur.
+     * @param taille taille de la grille
+     * @param nb_agent nombre d'agents
+     */
     public Grille(final int taille, final int nb_agent) {
         this.taille = taille;
         this.nb_agent = nb_agent;
@@ -35,13 +40,6 @@ public class Grille extends Observable{
         this.agents = new Agent[nb_agent];
         //initExemple();
         initPositions();
-    }
-
-    public Grille(final int taille, final Agent[] agents) {
-        this.taille = taille;
-        this.nb_agent = agents.length;
-        this.grille = new int[taille*taille];
-        this.agents = agents;
     }
 
     /**
@@ -74,6 +72,11 @@ public class Grille extends Observable{
 
     }
 
+    /**
+     * Renvoie l'agent d'après sa position.
+     * @param idAgent identifiant unique de l'agent.
+     * @return l'Agent s'il existe, null sinon
+     */
     public Agent getAgent(int idAgent) {
         synchronized (this) {
             for(Agent agent: agents) {
@@ -85,19 +88,20 @@ public class Grille extends Observable{
         }
     }
 
+    /**
+     * Getteur.
+     * @return les agents
+     */
     public Agent[] getAgents() {
         return agents;
     }
 
+    /**
+     * Démarre les agents.
+     */
     public void startAgents() {
         for (Agent agent : agents) {
             agent.start();
-        }
-    }
-
-    public void interruptAgent() {
-        for (Agent agent : agents) {
-            agent.interrupt();
         }
     }
 
@@ -138,22 +142,39 @@ public class Grille extends Observable{
 
     }
 
+    /**
+     * Getteur.
+     * @param pos position sur la grille
+     * @return l'identifiant de l'agent qui se trouve à cette position, 0 si aucun agent présent.
+     */
     public int getPosGrille(final int pos){
         synchronized (this) {
             return grille[pos];
         }
     }
 
+    /**
+     * Setteur.
+     * @param id identifiant de l'agent à placer.
+     * @param pos nouvelle position de l'agent sur la grille.
+     */
     public void setPosGrille(final int id, final int pos){
         synchronized (this) {
             grille[id] = pos;
         }
     }
 
+    /**
+     * Getteur.
+     * @return taille de la grille (nombre de lignes ou nombre de colonnes)
+     */
     public int getTaille() {
         return taille;
     }
 
+    /**
+     * Met à jour l'affichage en notifiant l'Observer
+     */
     public void majAffichage() {
         Platform.runLater(new Runnable() {
             @Override
@@ -164,6 +185,10 @@ public class Grille extends Observable{
         });
     }
 
+    /**
+     * Teste si la grille est reconsituée.
+     * @return true si elle l'est, false sinon
+     */
     public boolean estReconstituee() {
         synchronized (this) {
             for (Agent agent: this.agents) {
@@ -175,10 +200,19 @@ public class Grille extends Observable{
         }
     }
 
+    /**
+     * Getteur.
+     * @return la grille.
+     */
     public int[] getGrille() {
         return grille;
     }
 
+    /**
+     * Retourne les cases non occupées autour d'une position
+     * @param position position
+     * @return liste des positions libres autour
+     */
     public List<Integer>  getCaseLibreAutour(final int position) {
         List<Integer> autour = new ArrayList<>();
         //position n'est pas sur la première ligne
@@ -209,6 +243,11 @@ public class Grille extends Observable{
         return autour;
     }
 
+    /**
+     * Retourne les cases autour d'une position
+     * @param position position
+     * @return liste des positions autour
+     */
     public List<Integer>  getCaseAutour(final int position) {
         List<Integer> libres = new ArrayList<>();
         //position n'est pas sur la première ligne
@@ -231,6 +270,10 @@ public class Grille extends Observable{
         return libres;
     }
 
+    /**
+     * Retourne le nombre de lignes reconstituee.
+     * @return nombre de lignes reconstituee.
+     */
     public int ligneReconstituee() {
         int i, j;
         synchronized (grille) {

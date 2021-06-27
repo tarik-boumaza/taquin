@@ -10,7 +10,7 @@ import java.util.List;
 public class Chemin {
 
     /**
-     * Renvoie les chemins les plus courts entre deux positions, et leurs distances.
+     * Renvoie le saut suivant des chemins les plus courts entre deux positions, et leurs distances.
      * @param depart coordonnée 1D de départ.
      * @param arrivee coordonnée 1D de départ.
      * @param taille taille de la grille (x ou y)
@@ -212,6 +212,13 @@ public class Chemin {
         return result;
     }
 
+    /**
+     * Renvoie un chemin optimal possible.
+     * @param depart position de départ
+     * @param arrivee position d'arrivée
+     * @param grille grille de taquin
+     * @return prochain saut, null si aucun chemin n'est possible
+     */
     public static Integer cheminOptPossible(final int depart,
                                                   final int arrivee,
                                                   final Grille grille) {
@@ -266,7 +273,7 @@ public class Chemin {
     }
 
     /**
-     * Conversion de type de coordonnées.
+     * Convertit les types de coordonnées.
      * @param pos coordonnée 1D.
      * @param taille taille de la grille (x ou y).
      * @return coordonnées 2D : Pait<i,j>.

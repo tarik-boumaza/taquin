@@ -55,23 +55,21 @@ public class Main extends Application {
         System.exit(0);*/
 
         Grille grille;
-        int N = 10;
+        int N = 100;
         long debut = System.currentTimeMillis();
         for (int i = 0; i < N; i++) {
             grille= new Grille(5,21);
+            System.out.println(grille);
             grille.startAgents();
-            while(!grille.estReconstituee()) {}
-            System.out.println("j'ai fini le " + i + " : " + (System.currentTimeMillis()-debut)/(double)(1000));
+            while(!grille.estReconstituee() && ((System.currentTimeMillis() - debut)/1000) < 50) {
+            }
+            if (grille.estReconstituee())
+                System.out.println("j'ai fini le " + i + " : " + (System.currentTimeMillis()-debut)/(double)(1000));
+            debut = System.currentTimeMillis();
+            grille = null;
         }
-        System.out.println("Temps moyen : " + (System.currentTimeMillis() - debut)/(double)(N*1000));
+        //System.out.println("Temps moyen : " + (System.currentTimeMillis() - debut)/(double)(N*1000));
         System.exit(0);
 
     }
 }
-
-
-//3 min depart
-// 9 miutes change vers gauche
-// 10 minutes sort
-//fromage
-// 2 minutes change vers bas
