@@ -218,7 +218,7 @@ public class Agent extends Thread {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if (grille.ligneReconstituee() == position_finale / grille.getTaille()) {
+            if (grille.ligneReconstituee() >= position_finale / grille.getTaille()) {
                 if (position != position_finale) {
                     synchronized (grille.getGrille()) {
                         chemin = Chemin.chemin(position, position_finale, grille);

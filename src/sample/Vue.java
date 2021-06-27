@@ -20,6 +20,11 @@ public class Vue implements Observer {
         this.grille = grille;
         this.gpane = new GridPane();
         tab_images = new ImageView[grille.getTaille()][grille.getTaille()];
+        for (int i = 0; i < grille.getTaille(); i++) {
+            for (int j = 0; j < grille.getTaille(); j++) {
+                tab_images[i][j] = new ImageView();
+            }
+        }
         String filepath = "data/images/";
         carre = new Image(filepath + "carre.png");
         vert = new Image[grille.getTaille() * grille.getTaille()];
@@ -29,6 +34,13 @@ public class Vue implements Observer {
             rouge[i] = new Image(filepath + i + "-rouge.png");
         }
         setGrille();
+
+        for (int i = 0; i < grille.getTaille(); i++) {
+            for (int j = 0; j < grille.getTaille(); j++) {
+                gpane.add(tab_images[i][j], j,i);
+            }
+        }
+
     }
 
     public void setGrille() {
@@ -39,17 +51,16 @@ public class Vue implements Observer {
                 position = i* grille.getTaille()+j;
                 id_thread = grille.getPosGrille(position);
                 if (id_thread == 0) {
-                    tab_images[i][j] = new ImageView(carre);
+                    tab_images[i][j].setImage(carre);
                 }
                 else if (id_thread == position + 1) {
-                    tab_images[i][j] = new ImageView(vert[id_thread]);
+                    tab_images[i][j].setImage(vert[id_thread]);
                 } else {
-                    tab_images[i][j] = new ImageView(rouge[id_thread]);
+                    tab_images[i][j].setImage(rouge[id_thread]);
                 }
 
                 tab_images[i][j].setFitHeight(100);
                 tab_images[i][j].setPreserveRatio(true);
-                gpane.add(tab_images[i][j], j,i);
             }
         }
 

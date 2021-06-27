@@ -14,7 +14,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Grille grille = new Grille(5,20);
+        Grille grille = new Grille(5,21);
         System.out.println(grille.toString());
         Vue vue = new Vue(grille);
         grille.addObserver(vue);
@@ -44,7 +44,7 @@ public class Main extends Application {
 
 
     public static void main(String[] args) throws InterruptedException {
-        launch(args);
+        //launch(args);
         /*Grille grille = new Grille(5,20);
         System.out.println(grille.toString());
         grille.startAgents();
@@ -53,17 +53,25 @@ public class Main extends Application {
         System.out.println(grille.toString());
         System.out.println("fin");
         System.exit(0);*/
-        /*
-         Grille grille;
-        int N = 5;
+
+        Grille grille;
+        int N = 10;
         long debut = System.currentTimeMillis();
         for (int i = 0; i < N; i++) {
-            grille= new Grille(5,20);
+            grille= new Grille(5,21);
             grille.startAgents();
             while(!grille.estReconstituee()) {}
+            System.out.println("j'ai fini le " + i + " : " + (System.currentTimeMillis()-debut)/(double)(1000));
         }
         System.out.println("Temps moyen : " + (System.currentTimeMillis() - debut)/(double)(N*1000));
         System.exit(0);
-         */
+
     }
 }
+
+
+//3 min depart
+// 9 miutes change vers gauche
+// 10 minutes sort
+//fromage
+// 2 minutes change vers bas
