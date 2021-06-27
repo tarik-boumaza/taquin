@@ -15,18 +15,11 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Grille grille = new Grille(5,21);
-        System.out.println(grille.toString());
         Vue vue = new Vue(grille);
         grille.addObserver(vue);
-
-        for (int i = 0; i < grille.getAgents().length; i++) {
-            System.out.println(grille.getAgents()[i]);
-        }
-
         BorderPane root = new BorderPane();
-        root.setTop(new Text("Jeu du Taquin \n "));
         root.setCenter(vue.gpane);
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Jeu du taquin");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -44,32 +37,6 @@ public class Main extends Application {
 
 
     public static void main(String[] args) throws InterruptedException {
-        //launch(args);
-        /*Grille grille = new Grille(5,20);
-        System.out.println(grille.toString());
-        grille.startAgents();
-
-        while(!grille.estReconstituee()) {}
-        System.out.println(grille.toString());
-        System.out.println("fin");
-        System.exit(0);*/
-
-        Grille grille;
-        int N = 100;
-        long debut = System.currentTimeMillis();
-        for (int i = 0; i < N; i++) {
-            grille= new Grille(5,21);
-            System.out.println(grille);
-            grille.startAgents();
-            while(!grille.estReconstituee() && ((System.currentTimeMillis() - debut)/1000) < 50) {
-            }
-            if (grille.estReconstituee())
-                System.out.println("j'ai fini le " + i + " : " + (System.currentTimeMillis()-debut)/(double)(1000));
-            debut = System.currentTimeMillis();
-            grille = null;
-        }
-        //System.out.println("Temps moyen : " + (System.currentTimeMillis() - debut)/(double)(N*1000));
-        System.exit(0);
-
+        launch(args);
     }
 }

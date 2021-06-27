@@ -38,38 +38,7 @@ public class Grille extends Observable{
         this.nb_agent = nb_agent;
         this.grille = new int[taille*taille];
         this.agents = new Agent[nb_agent];
-        //initExemple();
         initPositions();
-    }
-
-    /**
-     * Exemple test.
-     */
-    private void initExemple() {
-        int[] tab_pos = new int[taille*taille];
-        for (int i = 0; i < taille*taille; i++) {
-            tab_pos[i] = 0;
-        }
-        for (int i = 0; i < 8; i++) {
-            tab_pos[i] = i+1;
-        }
-        tab_pos[9] = 10;
-        tab_pos[10] = 14;
-        tab_pos[12] = 13;
-        tab_pos[14] = 12;
-        tab_pos[17] = 9;
-        tab_pos[18] = 11;
-        tab_pos[24] = 15;
-
-        int j = 0;
-        for (int i = 0; i < taille*taille; i++) {
-            grille[i] = tab_pos[i];
-            if(tab_pos[i] > 0) {
-                agents[j] = new Agent(tab_pos[i]-1, i, this);
-                j++;
-            }
-        }
-
     }
 
     /**
